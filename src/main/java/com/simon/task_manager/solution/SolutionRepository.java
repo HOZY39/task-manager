@@ -45,15 +45,15 @@ public class SolutionRepository {
                 .params(List.of(solution.task_id().toString(),solution.solution()))
                 .update();
 
-        Assert.state(updated == 1, "Failed to create task");
+        Assert.state(updated == 1, "Failed to create solution");
     }
 
-//    public void update(Solution task, Integer id){
-//        var updated = jdbcClient.sql("update tasks set subject = ?, section = ?, description = ? where id = ?")
-//                .params(List.of(task.subject().toString(), task.section(), task.description(), id))
-//                .update();
-//        Assert.state(updated==1, "Failed to update task");
-//    }
+    public void update(Solution solution, Integer id){
+        var updated = jdbcClient.sql("update solutions set task_id = ?, solution = ? where id = ?")
+                .params(List.of(solution.task_id().toString(),solution.solution(), id))
+                .update();
+        Assert.state(updated==1, "Failed to update solution");
+    }
 
     public void delete(Integer id){
         var deleted = jdbcClient.sql("delete from solutions where id = :id")
@@ -65,7 +65,7 @@ public class SolutionRepository {
         return jdbcClient.sql("select * from solutions").query().listOfRows().size();
     }
 
-    public void saveAll(List<Solution> tasks) {
-        tasks.stream().forEach(this::create);
+    public void saveAll(List<Solution> solutions) {
+        solutions.stream().forEach(this::create);
     }
 }
