@@ -31,31 +31,31 @@ public class TaskController {
     }
     
 
-    @GetMapping("/{id}")
-    Task findById(@PathVariable Integer id) {
-        Optional<Task> task = taskRepository.findById(id);
-        if (task.isPresent()){
-            return task.get();
-        }else{
-            throw new TaskNotFoundException();
-        }
-    }
+     @GetMapping("/{id}")
+     Task findById(@PathVariable Integer id) {
+         Optional<Task> task = taskRepository.findById(id);
+         if (task.isPresent()){
+             return task.get();
+         }else{
+             throw new TaskNotFoundException();
+         }
+     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
-    void create(@RequestBody Task task){
-        taskRepository.create(task);
-    }
+     @ResponseStatus(HttpStatus.CREATED)
+     @PostMapping("")
+     void create(@RequestBody Task task){
+         taskRepository.create(task);
+     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
-    void update(@RequestBody Task task, @PathVariable Integer id){
-        taskRepository.update(task, id);
-    }
+     @ResponseStatus(HttpStatus.NO_CONTENT)
+     @PutMapping("/{id}")
+     void update(@RequestBody Task task, @PathVariable Integer id){
+         taskRepository.update(task, id);
+     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    void delete(@PathVariable Integer id){
-        taskRepository.delete( id);
-    }
+     @ResponseStatus(HttpStatus.NO_CONTENT)
+     @DeleteMapping("/{id}")
+     void delete(@PathVariable Integer id){
+         taskRepository.delete(id);
+     }
 }

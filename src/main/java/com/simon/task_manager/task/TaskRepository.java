@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import jakarta.annotation.PostConstruct;
 
@@ -14,45 +17,53 @@ import jakarta.annotation.PostConstruct;
 @Repository
 public class TaskRepository {
 
-    private List<Task> tasks = new ArrayList<>();
+    private static final Logger log = LoggerFactory.getLogger(TaskRepository.class);
 
-    List<Task> findAll() {
-        return tasks;
+    private final JdbcClient jdbcClient;
+
+    public TaskRepository(JdbcClient jdbcClient){
+        this.jdbcClient = jdbcClient;
     }
 
-    Optional<Task> findById(Integer id){
-        return tasks.stream()
-            .filter(task -> task.id() == id)
-            .findFirst();
+    public List<Task> findAll() {
+        return jdbcClient.sql("select * from tasks")
+            .query(Task.class)
+            .list();
     }
 
-    void create(Task task) {
-        tasks.add(task);
+    public Optional<Task> findById(Integer id) {
+        return jdbcClient.sql("SELECT * FROM tasks WHERE id = :id" )
+                .param("id", id)
+                .query(Task.class)
+                .optional();
     }
 
-    void update(Task task, Integer id) {
-        Optional<Task> taskToUpdate = findById(id);
-        if (taskToUpdate.isPresent()) {
-            tasks.set(tasks.indexOf(taskToUpdate.get()), task);
-        }
+    public void create(Task task) {
+        var updated = jdbcClient.sql("INSERT INTO tasks(subject,section,description) values(?,?,?)")
+                .params(List.of(task.subject().toString(),task.section(),task.description()))
+                .update();
+
+        Assert.state(updated == 1, "Failed to create task");
     }
 
-    void delete(Integer id){
-        tasks.removeIf(task -> task.id().equals(id));
+    public void update(Task task, Integer id){
+        var updated = jdbcClient.sql("update tasks set subject = ?, section = ?, description = ? where id = ?")
+                .params(List.of(task.subject().toString(), task.section(), task.description(), id))
+                .update();
+        Assert.state(updated==1, "Failed to update task");
     }
 
-    @PostConstruct
-    private void init() {
-        tasks.add(new Task(1, subject.MATH, "Addition", 
-        "I have 5 apples, my mom gave me another 3. How many apples do I have?", 
-        LocalDateTime.now()));
+    public void delete(Integer id){
+        var deleted = jdbcClient.sql("delete from tasks where id = :id")
+                .param("id", id)
+                .update();
+    }
 
-        tasks.add(new Task(2, subject.MATH, "Derivative", 
-        "What is the derivative of x squared?", 
-        LocalDateTime.now()));
+    public int count() {
+        return jdbcClient.sql("select * from tasks").query().listOfRows().size();
+    }
 
-        tasks.add(new Task(3, subject.PHYSICS, "Force", 
-        "Ball wieghs 3kg. What is the force of gravity?", 
-        LocalDateTime.now()));
+    public void saveAll(List<Task> tasks) {
+        tasks.stream().forEach(this::create);
     }
 }
