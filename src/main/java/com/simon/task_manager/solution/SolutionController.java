@@ -3,8 +3,6 @@ package com.simon.task_manager.solution;
 import java.util.List;
 import java.util.Optional;
 
-import com.simon.task_manager.task.Solution;
-import com.simon.task_manager.task.Solutions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/api/solutions")
 public class SolutionController {
 
     private final SolutionRepository solutionRepository;

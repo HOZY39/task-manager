@@ -14,20 +14,28 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import com.simon.task_manager.solution.*;
 
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
 
     private final TaskRepository taskRepository;
+    private final SolutionRepository solutionRepository;
 
-    public TaskController(TaskRepository taskRepository) {
+    public TaskController(TaskRepository taskRepository, SolutionRepository solutionRepository) {
         this.taskRepository = taskRepository;
+        this.solutionRepository = solutionRepository;
     }
 
     @GetMapping
     List<Task> findAll() {
         return taskRepository.findAll();
+    }
+
+    @GetMapping("/{id}/solutions")
+    List<Solution> findAllSol(@PathVariable Integer id) {
+        return solutionRepository.findAllForTask(id);
     }
     
 

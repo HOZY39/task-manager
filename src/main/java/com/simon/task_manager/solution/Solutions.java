@@ -1,4 +1,4 @@
-package com.simon.task_manager.task;
+package com.simon.task_manager.solution;
 
 import java.util.List;
 

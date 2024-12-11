@@ -1,19 +1,13 @@
 package com.simon.task_manager.solution;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.simon.task_manager.task.Solution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
-
-import jakarta.annotation.PostConstruct;
-
 
 
 @Repository
@@ -33,6 +27,13 @@ public class SolutionRepository {
                 .list();
     }
 
+    public List<Solution> findAllForTask(Integer id) {
+        return jdbcClient.sql("select * from solutions where task_id = :id")
+                .param("id", id)
+                .query(Solution.class)
+                .list();
+    }
+
     public Optional<Solution> findById(Integer id) {
         return jdbcClient.sql("SELECT * FROM solutions WHERE id = :id" )
                 .param("id", id)
@@ -41,16 +42,16 @@ public class SolutionRepository {
     }
 
     public void create(Solution solution) {
-        var updated = jdbcClient.sql("INSERT INTO solutions(task_id,solution) values(?,?)")
-                .params(List.of(solution.task_id().toString(),solution.solution()))
+        var updated = jdbcClient.sql("INSERT INTO solutions(task_id,solution,creator_id) values(?,?,?)")
+                .params(List.of(solution.task_id().toString(),solution.solution(),solution.creator_id()))
                 .update();
 
         Assert.state(updated == 1, "Failed to create solution");
     }
 
     public void update(Solution solution, Integer id){
-        var updated = jdbcClient.sql("update solutions set task_id = ?, solution = ? where id = ?")
-                .params(List.of(solution.task_id().toString(),solution.solution(), id))
+        var updated = jdbcClient.sql("update solutions set task_id = ?, solution = ?, creator_id = ? where id = ?")
+                .params(List.of(solution.task_id().toString(),solution.solution(),solution.creator_id(), id))
                 .update();
         Assert.state(updated==1, "Failed to update solution");
     }

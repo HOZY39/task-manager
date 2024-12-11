@@ -39,16 +39,16 @@ public class TaskRepository {
     }
 
     public void create(Task task) {
-        var updated = jdbcClient.sql("INSERT INTO tasks(subject,section,description) values(?,?,?)")
-                .params(List.of(task.subject().toString(),task.section(),task.description()))
+        var updated = jdbcClient.sql("INSERT INTO tasks(subject,section,description,creator_id) values(?,?,?,?)")
+                .params(List.of(task.subject().toString(),task.section(),task.description(),task.creator_id()))
                 .update();
 
         Assert.state(updated == 1, "Failed to create task");
     }
 
     public void update(Task task, Integer id){
-        var updated = jdbcClient.sql("update tasks set subject = ?, section = ?, description = ? where id = ?")
-                .params(List.of(task.subject().toString(), task.section(), task.description(), id))
+        var updated = jdbcClient.sql("update tasks set subject = ?, section = ?, description = ?, creator_id = ? where id = ?")
+                .params(List.of(task.subject().toString(), task.section(), task.description(), task.creator_id(), id))
                 .update();
         Assert.state(updated==1, "Failed to update task");
     }

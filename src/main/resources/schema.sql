@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     subject VARCHAR(50) REFERENCES subjects(name),
     section VARCHAR(50) REFERENCES sections(name),
     description TEXT,
+    creator_id INTEGER REFERENCES users(id),
     date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -19,12 +20,14 @@ CREATE TABLE IF NOT EXISTS solutions (
     id SERIAL PRIMARY KEY,
     task_id INTEGER REFERENCES tasks(id),
     solution TEXT,
+    creator_id INTEGER REFERENCES users(id),
     date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(50) NOT NULL
 );

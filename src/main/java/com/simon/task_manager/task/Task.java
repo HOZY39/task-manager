@@ -6,6 +6,7 @@ public record Task(
     subject subject,
     String section,
     String description,
+    Integer creator_id,
     LocalDateTime dateAdded
 ) {
 
