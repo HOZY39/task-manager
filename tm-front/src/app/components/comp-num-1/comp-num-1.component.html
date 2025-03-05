@@ -1,0 +1,23 @@
+<h3>Lista pytań:</h3>
+<ul>
+  <li *ngFor="let question of questions">
+    {{ question.description }} ({{ question.subject }} - {{ question.section }})
+  </li>
+</ul>
+
+<!-- Formularz dodawania pytania -->
+<input [(ngModel)]="newQuestion" placeholder="Wpisz pytanie">
+
+<!-- Wybór przedmiotu -->
+<select [(ngModel)]="selectedSubject">
+  <option value="">Wybierz przedmiot</option>
+  <option *ngFor="let subject of subjects" [value]="subject.name">{{ subject.name }}</option>
+</select>
+
+<!-- Wybór sekcji -->
+<select [(ngModel)]="selectedSection">
+  <option value="">Wybierz sekcję</option>
+  <option *ngFor="let section of sections" [value]="section.name">{{ section.name }}</option>
+</select>
+
+<button (click)="addQuestion()">Dodaj pytanie</button>

@@ -1,0 +1,20 @@
+<div class="add-question-container">
+    <h2>Dodaj nowe pytanie</h2>
+
+    <form (submit)="addQuestion()">
+        <label for="question">Treść pytania:</label>
+        <textarea id="question" name="question" [(ngModel)]="questionText" placeholder="Wpisz treść pytania..." rows="4" required></textarea>
+
+        <label for="subject">Subject:</label>
+        <select id="subject" name="subject" [(ngModel)]="selectedSubject" (change)="updateSections()" required>
+            <option *ngFor="let subject of subjects" [value]="subject.name">{{ subject.name }}</option>
+        </select>
+
+        <label for="section">Section:</label>
+        <select id="section" name="section" [(ngModel)]="selectedSection" required>
+            <option *ngFor="let section of sections" [value]="section.name">{{ section.name }}</option>
+        </select>
+
+        <button type="submit">Dodaj pytanie</button>
+    </form>
+</div>

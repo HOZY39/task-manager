@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import com.simon.task_manager.solution.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -36,6 +38,11 @@ public class TaskController {
     @GetMapping("/{id}/solutions")
     List<Solution> findAllSol(@PathVariable Integer id) {
         return solutionRepository.findAllForTask(id);
+    }
+
+    @GetMapping("/section/{section}")
+    List<Task> findAllBySection(@PathVariable String section) {
+        return taskRepository.findAllBySection(section);
     }
     
 

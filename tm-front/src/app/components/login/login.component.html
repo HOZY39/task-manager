@@ -1,0 +1,12 @@
+<h2>Logowanie</h2>
+<form (submit)="login()">
+  <label>Username:</label>
+  <input type="text" [(ngModel)]="username" name="username" required />
+
+  <label>Password:</label>
+  <input type="password" [(ngModel)]="password" name="password" required />
+
+  <button type="submit">Zaloguj</button>
+</form>
+
+<p>Nie masz konta? <a routerLink="/register">Zarejestruj się</a></p>

@@ -1,0 +1,60 @@
+/* Navbar */
+.navbar {
+  background-color: #f9ec9b;
+  color: rgb(102, 94, 94);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-links a {
+  margin: 0 0.5rem;
+  text-decoration: none;
+  color: rgb(102, 94, 94);
+  transition: color 0.3s;
+}
+.nav-links span {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: rgb(102, 94, 94);
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #93c5fd;
+}
+
+.logout-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #dc2626;
+}
+
+/* Główna zawartość */
+.content {
+  padding: 2rem;
+}
+
+/* Stopka */
+.footer {
+  background-color: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}

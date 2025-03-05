@@ -37,18 +37,24 @@ public class TaskRepository {
                 .query(Task.class)
                 .optional();
     }
+    public List<Task> findAllBySection(String section) {
+        return jdbcClient.sql("SELECT * FROM tasks WHERE section = :section" )
+                .param("section", section)
+                .query(Task.class)
+                .list();
+    }
 
     public void create(Task task) {
-        var updated = jdbcClient.sql("INSERT INTO tasks(subject,section,description,creator_id) values(?,?,?,?)")
-                .params(List.of(task.subject().toString(),task.section(),task.description(),task.creator_id()))
+        var updated = jdbcClient.sql("INSERT INTO tasks(subject,section,description,creator_username) values(?,?,?,?)")
+                .params(List.of(task.subject().toString(),task.section(),task.description(),task.creator_username()))
                 .update();
 
         Assert.state(updated == 1, "Failed to create task");
     }
 
     public void update(Task task, Integer id){
-        var updated = jdbcClient.sql("update tasks set subject = ?, section = ?, description = ?, creator_id = ? where id = ?")
-                .params(List.of(task.subject().toString(), task.section(), task.description(), task.creator_id(), id))
+        var updated = jdbcClient.sql("update tasks set description = ?, where id = ?")
+                .params(List.of(task.description(), id))
                 .update();
         Assert.state(updated==1, "Failed to update task");
     }

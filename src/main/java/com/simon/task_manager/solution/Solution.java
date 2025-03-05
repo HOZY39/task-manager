@@ -6,7 +6,7 @@ public record Solution(
     Integer id,
     Integer task_id,
     String solution,
-    Integer creator_id,
+    String creator_username,
     LocalDateTime date_added
 ) {
 }

@@ -1,0 +1,37 @@
+<div class="home-container">
+    <!-- Pole wyszukiwania -->
+    <input 
+      type="text" 
+      [(ngModel)]="searchQuery" 
+      placeholder="Wpisz treść zadania..." 
+      class="search-input"
+    />
+    <button (click)="searchTask()" class="search-btn">Szukaj</button>
+  
+    <!-- Kafelki z przedmiotami -->
+    <div class="subjects-grid" *ngIf="showSubjects">
+      <div 
+        *ngFor="let subject of subjects" 
+        class="subject-tile" 
+        (click)="goToTopics(subject.name)"
+      >
+        {{ subject.name }}
+      </div>
+    </div>
+
+    <div *ngIf="!showSubjects">
+        <button (click)="backToSubjects()" >Cofnij</button>
+        <div class="subjects-grid">
+            <a 
+              *ngFor="let section of sections" 
+              [routerLink]="['/tasks', section.name]"
+              class="subject-tile"
+            >
+              {{ section.name }}
+            </a>
+          </div>
+    </div>
+
+
+  </div>
+  

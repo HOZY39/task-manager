@@ -42,16 +42,16 @@ public class SolutionRepository {
     }
 
     public void create(Solution solution) {
-        var updated = jdbcClient.sql("INSERT INTO solutions(task_id,solution,creator_id) values(?,?,?)")
-                .params(List.of(solution.task_id().toString(),solution.solution(),solution.creator_id()))
+        var updated = jdbcClient.sql("INSERT INTO solutions(task_id,solution,creator_username) values(?,?,?)")
+                .params(List.of(solution.task_id(),solution.solution(),solution.creator_username()))
                 .update();
 
         Assert.state(updated == 1, "Failed to create solution");
     }
 
     public void update(Solution solution, Integer id){
-        var updated = jdbcClient.sql("update solutions set task_id = ?, solution = ?, creator_id = ? where id = ?")
-                .params(List.of(solution.task_id().toString(),solution.solution(),solution.creator_id(), id))
+        var updated = jdbcClient.sql("update solutions set solution = ? where id = ?")
+                .params(List.of(solution.solution(), id))
                 .update();
         Assert.state(updated==1, "Failed to update solution");
     }

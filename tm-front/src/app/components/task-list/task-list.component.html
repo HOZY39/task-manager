@@ -1,0 +1,17 @@
+<div class="container">
+    <button class="back-button" (click)="goBack()">← Back</button>
+    <h2 class="title">Zadania dla tematu: {{ section }}</h2>
+
+    <div *ngIf="TaskList.length > 0; else noQuestions">
+        <div
+        *ngFor="let question of TaskList"
+        class="question-card"
+        (click)="goToTask(question.id)">
+        <h3 class="question-title">{{ question.description }}</h3>
+        </div>
+    </div>
+
+    <ng-template #noQuestions>
+        <p class="no-questions">Brak dostępnych pytań.</p>
+    </ng-template>
+</div>
