@@ -11,8 +11,10 @@ import { NgIf } from '@angular/common';
 })
 export class MainLayoutComponent {
   username: string | null = null;
+
   constructor(private authService: AuthService, private router: Router) {
-    this.username = this.authService.getUsernameFromToken();}
+    this.username = this.authService.getUsernameFromToken();
+  }
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
@@ -20,6 +22,10 @@ export class MainLayoutComponent {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
+    window.location.href = '/login';
+  }
+
+  RefreshUsername() {
+    this.username = this.authService.getUsernameFromToken();
   }
 }

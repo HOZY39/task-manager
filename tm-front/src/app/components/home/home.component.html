@@ -1,14 +1,12 @@
 <div class="home-container">
-    <!-- Pole wyszukiwania -->
     <input 
       type="text" 
       [(ngModel)]="searchQuery" 
-      placeholder="Wpisz treść zadania..." 
+      placeholder="Task..." 
       class="search-input"
     />
-    <button (click)="searchTask()" class="search-btn">Szukaj</button>
+    <button (click)="searchTask()" class="search-btn">Search</button>
   
-    <!-- Kafelki z przedmiotami -->
     <div class="subjects-grid" *ngIf="showSubjects">
       <div 
         *ngFor="let subject of subjects" 
@@ -20,7 +18,7 @@
     </div>
 
     <div *ngIf="!showSubjects">
-        <button (click)="backToSubjects()" >Cofnij</button>
+        <button (click)="backToSubjects()" >Back</button>
         <div class="subjects-grid">
             <a 
               *ngFor="let section of sections" 

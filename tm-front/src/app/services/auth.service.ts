@@ -7,7 +7,7 @@ import { jwtDecode } from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/auth'; // Adres backendu
+  private apiUrl = 'http://localhost:8080/auth';
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token'); // Usuwamy token przy wylogowaniu
+    localStorage.removeItem('token'); // delete token
   }
 
   getToken(): string | null {
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken(); // Sprawdza, czy token istnieje
+    return !!this.getToken(); // Check if token exists
   }
 
   getUsernameFromToken(): string | null {
@@ -37,9 +37,9 @@ export class AuthService {
     
     try {
       const decodedToken: any = jwtDecode(token);
-      return decodedToken.sub;  // W JWT standardowo 'sub' oznacza nazwę użytkownika
+      return decodedToken.sub;  // In JWT, 'sub' is the username
     } catch (error) {
-      console.error('Błąd dekodowania tokena:', error);
+      console.error('Error decoding token:', error);
       return null;
     }
   }

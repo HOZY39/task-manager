@@ -1,8 +1,7 @@
-<!-- Navbar -->
 <nav class="navbar">
   <div class="logo">Task Manager</div>
   <div class="nav-links">
-    <span *ngIf="isLoggedIn()">Witaj, {{ username }}!</span>
+    <span *ngIf="isLoggedIn()">Welcome, {{ username }}!</span>
     <a routerLink="/">Home</a>
     <a routerLink="/login" *ngIf="!isLoggedIn()">Login</a>
     <a routerLink="/register" *ngIf="!isLoggedIn()">Register</a>
@@ -11,15 +10,12 @@
   </div>
 </nav>
 
-<!-- Główna zawartość strony -->
 <div class="content">
   <router-outlet></router-outlet>
 </div>
 
-<!-- Stopka -->
 <footer class="footer">
   <p>&copy; 2025 My App</p>
 </footer>
 
-<!-- External CSS file -->
 <link rel="stylesheet" href="styles.css">

@@ -1,7 +1,5 @@
 package com.simon.task_manager.task;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -9,9 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
-
-import jakarta.annotation.PostConstruct;
-
 
 
 @Repository
@@ -60,9 +55,13 @@ public class TaskRepository {
     }
 
     public void delete(Integer id){
+        var deleted_sol = jdbcClient.sql("delete from solutions where task_id = :id")
+                .param("id", id)
+                .update();
         var deleted = jdbcClient.sql("delete from tasks where id = :id")
                 .param("id", id)
                 .update();
+        Assert.state(deleted==1, "Failed to delete task");
     }
 
     public int count() {

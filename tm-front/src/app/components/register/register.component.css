@@ -1,0 +1,15 @@
+.pass-to-short {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+
+.pass-not-match {
+    border: 2px solid red;
+    border-radius: 4px;
+}
+
+
+button:disabled {
+    background-color: #f1f1f1;
+    color: #c1c1c1;
+}

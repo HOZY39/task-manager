@@ -26,6 +26,9 @@ export class TaskPageComponent {
 
   constructor(private route: ActivatedRoute, private tmService: TmApiService, private authService: AuthService) {
     this.getUsername();
+    if (!this.username) {
+      window.location.href = '/login';
+    }
     this.taskId = Number(this.route.snapshot.paramMap.get('id'));
     this.getTask(this.taskId);
     this.getSolutions(this.taskId);
@@ -53,8 +56,6 @@ export class TaskPageComponent {
   }
 
   canEditOrDeleteSolution(creatorUsername: string): boolean {
-    //console.log(creatorUsername);
-    //console.log(this.username);
     return this.username === creatorUsername;
   }
 
@@ -68,20 +69,16 @@ export class TaskPageComponent {
     };
 
     this.tmService.addSolution(newAnswer).subscribe((response) => {
-      //this.solutions.push(response); // Aktualizacja listy odpowiedzi
-      this.getSolutions(this.taskId!); // Aktualizacja listy odpowiedzi
-      this.newAnswerText = ''; // Czyszczenie pola
+      this.getSolutions(this.taskId!);
+      this.newAnswerText = '';
     });
   }
-
-
-
 
   deleteTask() {
     if (confirm('Czy na pewno chcesz usunąć to pytanie?')) {
       this.tmService.deleteQuestion(this.taskId!).subscribe(() => {
         alert('Pytanie zostało usunięte');
-        window.history.back(); // Powrót do poprzedniej strony
+        window.history.back();
       });
     }
   }

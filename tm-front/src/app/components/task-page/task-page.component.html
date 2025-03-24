@@ -1,39 +1,36 @@
 <div class="task-container">
   <button (click)="goBack()">Back</button>
-  <h2 class="task-title">Pytanie: {{ task?.description }}</h2>
+  <h2 class="task-title">Task: {{ task?.description }}</h2>
   
-  <!-- Opcja edycji/usunięcia pytania -->
-  <button *ngIf="canEditOrDeleteTask()" (click)="deleteTask()">Usuń pytanie</button>
+  <button *ngIf="canEditOrDeleteTask()" (click)="deleteTask()">Delete question</button>
 
   <div class="answers-section">
-      <h3>Odpowiedzi:</h3>
+      <h3>Answers:</h3>
       <div *ngIf="solutions.length > 0; else noAnswers">
           <div *ngFor="let answer of solutions" class="answer-card">
-              <!-- Edytowanie odpowiedzi -->
               <div *ngIf="editingAnswerId === answer.id; else viewAnswer">
                   <textarea [(ngModel)]="editedAnswerText"></textarea>
-                  <button (click)="saveEditedAnswer(answer.id)">Zapisz</button>
-                  <button (click)="cancelEditing()">Anuluj</button>
+                  <button (click)="saveEditedAnswer(answer.id)">Save</button>
+                  <button (click)="cancelEditing()">Cancel</button>
               </div>
               <ng-template #viewAnswer>
                   <p>{{ answer.solution }}</p>
-                  <span class="answer-author">Dodane przez: {{ answer.creator_username }}</span>
+                  <span class="answer-author">Added by: {{ answer.creator_username }}</span>
                   
-                  <!-- Opcje edycji/usunięcia odpowiedzi -->
-                  <button *ngIf="canEditOrDeleteSolution(answer.creator_username)" (click)="startEditing(answer)">Edytuj</button>
-                  <button *ngIf="canEditOrDeleteSolution(answer.creator_username)" (click)="deleteAnswer(answer.id)">Usuń</button>
+                  <button *ngIf="canEditOrDeleteSolution(answer.creator_username)" (click)="startEditing(answer)">Edit</button>
+                  <button *ngIf="canEditOrDeleteSolution(answer.creator_username)" (click)="deleteAnswer(answer.id)">Delete</button>
               </ng-template>
           </div>
       </div>
 
       <ng-template #noAnswers>
-          <p class="no-answers">Brak odpowiedzi. Bądź pierwszą osobą, która odpowie!</p>
+          <p class="no-answers">No answers yet! Be the first one to help!</p>
       </ng-template>
   </div>
 
   <div class="add-answer">
-      <h3>Dodaj swoją odpowiedź</h3>
+      <h3>Add your answer</h3>
       <textarea [(ngModel)]="newAnswerText" placeholder="Wpisz swoją odpowiedź..." rows="3"></textarea>
-      <button (click)="addAnswer()">Dodaj</button>
+      <button (click)="addAnswer()">Add</button>
   </div>
 </div>

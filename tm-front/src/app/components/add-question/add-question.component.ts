@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TmApiService } from '../../services/tm-api.service';
 import { AuthService } from '../../services/auth.service';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-question',
-  imports: [NgFor, NgIf, FormsModule],
+  imports: [NgFor, FormsModule],
   templateUrl: './add-question.component.html',
   styleUrl: './add-question.component.css'
 })

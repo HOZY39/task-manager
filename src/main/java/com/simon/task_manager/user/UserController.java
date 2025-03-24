@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = "http://localhost:4200") // Jeśli Angular będzie na porcie 4200
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -36,8 +36,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
     void register(@RequestBody User user) {
-        //String encodedPassword = passwordEncoder.encode(user.password());
-        //User userWithEncodedPassword = new User(user.username(), user.email(), encodedPassword, user.role());
         userRepository.registerUser(user.username(), user.email(), user.password(), user.role());
     }
 

@@ -1,4 +1,4 @@
-<h2>Logowanie</h2>
+<h2>Login</h2>
 <form (submit)="login()">
   <label>Username:</label>
   <input type="text" [(ngModel)]="username" name="username" required />
@@ -6,7 +6,9 @@
   <label>Password:</label>
   <input type="password" [(ngModel)]="password" name="password" required />
 
-  <button type="submit">Zaloguj</button>
+  <button type="submit">Log in</button>
 </form>
 
-<p>Nie masz konta? <a routerLink="/register">Zarejestruj się</a></p>
+<p *ngIf="loginError" class="error">{{ loginError }}</p>
+
+<p>Don't have an account? <a routerLink="/register">Register now</a></p>

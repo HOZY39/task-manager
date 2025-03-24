@@ -1,4 +1,4 @@
-<h2>Rejestracja</h2>
+<h2>Registration</h2>
 <form (submit)="register()">
   <label>Username:</label>
   <input type="text" [(ngModel)]="username" name="username" required />
@@ -7,9 +7,14 @@
   <input type="email" [(ngModel)]="email" name="email" required />
 
   <label>Password:</label>
-  <input type="password" [(ngModel)]="password" name="password" required />
+  <input type="password" [(ngModel)]="password" name="password" (ngModelChange)="CheckPassword()"  [ngClass]="passwordClass" required />
+  <p *ngIf="passwordError" class="error-message">{{ passwordError }}</p>
 
-  <button type="submit">Zarejestruj</button>
+  <label>Check password:</label>
+  <input type="password" [(ngModel)]="password_check" name="password_check" (ngModelChange)="CheckPasswordMatch()" [ngClass]="passwordCheckClass" required />
+  <p *ngIf="passwordCheckError" class="error-message">{{ passwordCheckError }}</p>
+
+  <button [disabled]="RegButtonCheck" type="submit">Register</button>
 </form>
 
-<p>Masz już konto? <a routerLink="/login">Zaloguj się</a></p>
+<p>Already have na account? <a routerLink="/login">Log in</a></p>
