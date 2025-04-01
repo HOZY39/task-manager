@@ -54,6 +54,13 @@ public class UserRepository {
                 .optional();
     }
 
+    public Optional<String> findRoleByUsername(String username) {
+        return jdbcClient.sql("SELECT role FROM users WHERE username = :username")
+                .param("username", username)
+                .query(String.class)
+                .optional();
+    }
+
     public boolean checkPassword(User user, String rawPassword) {
         return passwordEncoder.matches(rawPassword, user.password());
     }

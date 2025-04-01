@@ -1,6 +1,6 @@
 <div class="container">
     <button class="back-button" (click)="goBack()">← Back</button>
-    <h2 class="title">Zadania dla tematu: {{ section }}</h2>
+    <h2 class="title">Task for section: {{ section }}</h2>
 
     <div *ngIf="TaskList.length > 0; else noQuestions">
         <div
@@ -12,6 +12,6 @@
     </div>
 
     <ng-template #noQuestions>
-        <p class="no-questions">Brak dostępnych pytań.</p>
+        <p class="no-questions">There are no tasks.</p>
     </ng-template>
 </div>

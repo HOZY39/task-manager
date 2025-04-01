@@ -4,6 +4,7 @@
     <form (submit)="addQuestion()">
         <label for="question">Task:</label>
         <textarea id="question" name="question" [(ngModel)]="questionText" placeholder="Task..." rows="4" required></textarea>
+        <input type="file" (change)="onFileSelected($event)">
 
         <label for="subject">Subject:</label>
         <select id="subject" name="subject" [(ngModel)]="selectedSubject" (change)="updateSections()" required>

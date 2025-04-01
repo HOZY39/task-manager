@@ -11,32 +11,44 @@ import { NgFor, NgIf, Location } from '@angular/common';
 })
 export class TaskListComponent implements OnInit {
   section: string = '';
+  search: string = '';
   TaskList: any = [];
   constructor(private tmService: TmApiService, private router: Router, private route: ActivatedRoute, private location: Location) {
   }
-
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.section = params.get('section') || '';
-      console.log('Wybrana sekcja:', this.section);
-      // Tutaj możesz pobrać zadania dla danej sekcji z API
+    this.route.queryParamMap.subscribe(params => {
+      console.log('Params:', params.get('section'), params.get('search'));
+      if (params.get('section')) {
+        this.section = params.get('section') ?? ''; // ?? -> if null then ''
+        this.getTasks();
+        console.log('Section:', this.section);
+      } else if (params.get('search')) {
+        this.search = params.get('search') ?? '';
+        this.getTaskByText();
+        console.log('Search:', this.search);
+      }
     });
-    this.getTasks();
   }
 
   getTasks() {
     this.tmService.getQuestionsBySection(this.section).subscribe((data) => {
-      console.log('Dane z API', data);
+      console.log('Data from API', data);
       this.TaskList = data;
-      console.log('Zadania dla sekcji', this.section, this.TaskList);
+      console.log('Tasks for section:', this.section, this.TaskList);
+    });
+  }
+  getTaskByText() {
+    this.tmService.getQuestionsByText(this.search).subscribe((data) => {
+      console.log('Data from API', data);
+      this.TaskList = data;
     });
   }
 
   goBack() {
-    this.location.back(); // Cofnij użytkownika do poprzedniej strony
+    this.location.back(); 
   }
   goToTask(taskId: number) {
-    this.router.navigate(['/task', taskId]); // Przekierowanie na stronę zadania
+    this.router.navigate(['/task', taskId]);
   }
 
 }

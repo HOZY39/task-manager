@@ -7,6 +7,7 @@ public record Solution(
     Integer task_id,
     String solution,
     String creator_username,
-    LocalDateTime date_added
+    LocalDateTime date_added,
+    String images
 ) {
 }

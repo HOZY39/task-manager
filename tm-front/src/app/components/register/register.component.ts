@@ -23,7 +23,9 @@ export class RegisterComponent {
   passwordCheckError = '';
   passwordError = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    this.RegButtonCheck = true;
+  }
 
   CheckPassword() {
     if (this.password.length < 8) {

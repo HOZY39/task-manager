@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/auth';
+  private apiUser = 'http://localhost:8080/api/user';
 
   constructor(private http: HttpClient) {}
 
@@ -43,5 +44,8 @@ export class AuthService {
       return null;
     }
   }
+  getUserRole(username: string): Observable<string> {
+    return this.http.get(`http://localhost:8080/api/user/${username}/role`, { responseType: 'text' });
+}
 
 }

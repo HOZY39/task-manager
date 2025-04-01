@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -48,5 +48,11 @@ public class UserController {
         } else {
             throw new UserNotFoundException();
         }
+    }
+
+    @GetMapping("/{username}/role")
+    String getRole(@PathVariable String username) {
+        return userRepository.findRoleByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException());
     }
 }

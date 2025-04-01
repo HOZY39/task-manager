@@ -1,6 +1,9 @@
 <div class="task-container">
   <button (click)="goBack()">Back</button>
+  
+  <!-- ? return undefined if null/undefined (noramlly error) -->
   <h2 class="task-title">Task: {{ task?.description }}</h2>
+  <img *ngIf="task?.images[0]" [src]="'http://localhost:8080/'+task?.images[0]" alt="Question image">
   
   <button *ngIf="canEditOrDeleteTask()" (click)="deleteTask()">Delete question</button>
 
@@ -15,6 +18,15 @@
               </div>
               <ng-template #viewAnswer>
                   <p>{{ answer.solution }}</p>
+                  <!-- Miniatura -->
+                    <img *ngIf="answer.images[0]" [src]="'http://localhost:8080/'+answer.images[0]" 
+                    alt="Solution image" class="solution-image" (click)="openModal(answer.images[0])">
+
+                    <!-- Modal (Popup) -->
+                    <div class="modal" *ngIf="showModal" (click)="closeModal()">
+                    <img [src]="'http://localhost:8080/'+selectedImage" class="modal-content">
+                    </div>
+
                   <span class="answer-author">Added by: {{ answer.creator_username }}</span>
                   
                   <button *ngIf="canEditOrDeleteSolution(answer.creator_username)" (click)="startEditing(answer)">Edit</button>
@@ -31,6 +43,7 @@
   <div class="add-answer">
       <h3>Add your answer</h3>
       <textarea [(ngModel)]="newAnswerText" placeholder="Wpisz swoją odpowiedź..." rows="3"></textarea>
+      <input type="file" (change)="onFileSelected($event)">
       <button (click)="addAnswer()">Add</button>
   </div>
 </div>

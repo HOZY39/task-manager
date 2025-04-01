@@ -35,3 +35,14 @@ CREATE TABLE IF NOT EXISTS solutions (
     date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS solution_images (
+    id SERIAL PRIMARY KEY,
+    solution_id INT REFERENCES solutions(id),
+    image_url TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS question_images (
+    id SERIAL PRIMARY KEY,
+    question_id INT REFERENCES tasks(id),
+    image_url TEXT NOT NULL
+);

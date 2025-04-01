@@ -7,7 +7,8 @@ public record Task(
     String section,
     String description,
     String creator_username,
-    LocalDateTime dateAdded
+    LocalDateTime dateAdded,
+    String images
 ) {
 
 }

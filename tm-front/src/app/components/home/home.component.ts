@@ -31,7 +31,7 @@ export class HomeComponent {
   }
   searchTask() {
     if (this.searchQuery.trim()) {
-      this.router.navigate(['/search'], { queryParams: { q: this.searchQuery } });
+      this.router.navigate(['/tasks'], { queryParams: { search: this.searchQuery } });
     }
   }
 
@@ -42,7 +42,7 @@ export class HomeComponent {
   }
   goToList(section: any) {
     this.chosenSection = section;
-    this.router.navigate(['/task'], { queryParams: { q: this.searchQuery } });
+    this.router.navigate(['/tasks'], { queryParams: { section: this.chosenSection } });
   }
 
   backToSubjects() {

@@ -2,27 +2,26 @@
     <input 
       type="text" 
       [(ngModel)]="searchQuery" 
-      placeholder="Task..." 
+      placeholder="Search for task..." 
       class="search-input"
     />
     <button (click)="searchTask()" class="search-btn">Search</button>
   
     <div class="subjects-grid" *ngIf="showSubjects">
-      <div 
-        *ngFor="let subject of subjects" 
-        class="subject-tile" 
-        (click)="goToTopics(subject.name)"
-      >
-        {{ subject.name }}
+      <div *ngFor="let subject of subjects" (click)="goToTopics(subject.name)" class="card">
+        <img [src]="subject.name + '.jpg'" class="card-image">
+        <div class="card-content">
+          <p class="card-title">{{ subject.name }}</p>
+        </div>
       </div>
     </div>
 
     <div *ngIf="!showSubjects">
-        <button (click)="backToSubjects()" >Back</button>
+        <button (click)="backToSubjects()" class="back-button">Back</button>
         <div class="subjects-grid">
             <a 
               *ngFor="let section of sections" 
-              [routerLink]="['/tasks', section.name]"
+              (click)="goToList(section.name)"
               class="subject-tile"
             >
               {{ section.name }}
