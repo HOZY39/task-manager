@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/section")
-@CrossOrigin(origins = "http://localhost:4200") // Jeśli Angular będzie na porcie 4200
+@CrossOrigin(origins = "*")
 public class SectionController {
 
 

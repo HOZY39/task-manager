@@ -4,6 +4,7 @@
   <!-- ? return undefined if null/undefined (noramlly error) -->
   <h2 class="task-title">Task: {{ task?.description }}</h2>
   <img *ngIf="task?.images[0]" [src]="'http://localhost:8080/'+task?.images[0]" alt="Question image">
+  <span class="answer-author">Added by: {{ task?.creator_username }}</span>
   
   <button *ngIf="canEditOrDeleteTask()" (click)="deleteTask()">Delete question</button>
 
@@ -18,11 +19,9 @@
               </div>
               <ng-template #viewAnswer>
                   <p>{{ answer.solution }}</p>
-                  <!-- Miniatura -->
                     <img *ngIf="answer.images[0]" [src]="'http://localhost:8080/'+answer.images[0]" 
                     alt="Solution image" class="solution-image" (click)="openModal(answer.images[0])">
 
-                    <!-- Modal (Popup) -->
                     <div class="modal" *ngIf="showModal" (click)="closeModal()">
                     <img [src]="'http://localhost:8080/'+selectedImage" class="modal-content">
                     </div>

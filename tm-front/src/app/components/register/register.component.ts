@@ -34,8 +34,9 @@ export class RegisterComponent {
       this.passwordError = 'Password must be at least 8 characters long';
     } else {
       this.passwordClass = '';
-      this.RegButtonCheck = true;
+      this.RegButtonCheck = false;
       this.passwordError = '';
+      this.CheckPasswordMatch();
     }
   }
 
@@ -46,8 +47,9 @@ export class RegisterComponent {
       this.passwordCheckError = 'Passwords do not match';
     } else {
       this.passwordCheckClass = '';
-      this.RegButtonCheck = true;
+      this.RegButtonCheck = false;
       this.passwordCheckError = '';
+      this.CheckPassword();
     }
   }
 
