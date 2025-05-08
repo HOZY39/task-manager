@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-import com.simon.task_manager.solution.Solution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,22 +35,18 @@ public class TaskService {
 
     private static final Logger log = LoggerFactory.getLogger(TaskService.class);
 
-    // Znajdowanie wszystkich zadań
     public List<Task> findAll() {
         return taskRepository.findAll();
     }
 
-    // Znajdowanie wszystkich zadań w danej sekcji
     public List<Task> findAllBySection(String section) {
         return taskRepository.findAllBySection(section);
     }
 
-    // Wyszukiwanie zadań po tekście
     public List<Task> findAllByText(String searchText) {
         return taskRepository.findAllByText(searchText);
     }
 
-    // Znajdowanie zadania po ID
     public Optional<Task> findById(Integer id) {
         return taskRepository.findById(id);
     }
