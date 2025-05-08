@@ -25,15 +25,12 @@ public class TaskRepository {
     @Value("${file.upload-dir-img}")
     private String uploadDir;
 
-    private final SolutionRepository solutionRepository;
-
     private static final Logger log = LoggerFactory.getLogger(TaskRepository.class);
 
     private final JdbcClient jdbcClient;
 
-    public TaskRepository(JdbcClient jdbcClient, SolutionRepository solutionRepository){
+    public TaskRepository(JdbcClient jdbcClient){
         this.jdbcClient = jdbcClient;
-        this.solutionRepository = solutionRepository;
     }
 
     public List<Task> findAll() {
@@ -88,62 +85,35 @@ public class TaskRepository {
                 .single();
     }
 
-    public void addImage(MultipartFile file, Integer id) throws IOException {
-        log.info("Uploading image for task with id: " + id);
-        log.info("File name: " + file.getOriginalFilename());
-        File dir = new File(uploadDir);
-        if (!dir.exists()) {
-            boolean created = dir.mkdirs();
-            if (!created) {
-                throw new RuntimeException("Failed to create directory: " + uploadDir);
-            }
-        }
-
-        String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get(uploadDir, filename);
-
-        Files.write(filePath, file.getBytes());
-        var updated = jdbcClient.sql("INSERT INTO question_images(question_id,image_url) values(?,?)")
-                .params(List.of(id, filename))
-                .update();
-        Assert.state(updated==1, "Failed to add image");
+    public int updateDescription(Integer taskId, String description) {
+        return jdbcClient.sql("""
+            UPDATE tasks SET description = ? WHERE id = ?
+        """).params(List.of(description, taskId)).update();
     }
 
-    public void update(Task task, Integer id){
-        var updated = jdbcClient.sql("update tasks set description = ?, where id = ?")
-                .params(List.of(task.description(), id))
-                .update();
-        Assert.state(updated==1, "Failed to update task");
+    public int insertImage(Integer taskId, String filename) {
+        return jdbcClient.sql("""
+            INSERT INTO question_images(question_id, image_url) VALUES (?, ?)
+        """).params(List.of(taskId, filename)).update();
     }
 
-    public void delete(Integer id){
-
-        List<String> imageUrls = jdbcClient.sql("SELECT image_url FROM question_images WHERE question_id = :id")
-            .param("id", id)
-            .query(String.class)
-            .list();
-
-        for (String imageUrl : imageUrls) {
-            try {
-                Path filePath = Paths.get("uploads/images", imageUrl);
-                Files.deleteIfExists(filePath);
-            } catch (Exception e) {
-                System.err.println("Error while deleting file: " + imageUrl);
-                e.printStackTrace();
-            }
-        }
-        List<Solution> solutions = solutionRepository.findAllForTask(id);
-        for (Solution solution : solutions) {
-            solutionRepository.delete(solution.id());
-        }
-        
-        var deletedImg = jdbcClient.sql("delete from question_images where question_id = :id")
-                .param("id", id)
+    public int deleteImagesByTaskId(Integer taskId) {
+        return jdbcClient.sql("DELETE FROM question_images WHERE question_id = :id")
+                .param("id", taskId)
                 .update();
-        var deleted = jdbcClient.sql("delete from tasks where id = :id")
-                .param("id", id)
+    }
+
+    public int deleteTask(Integer taskId) {
+        return jdbcClient.sql("DELETE FROM tasks WHERE id = :id")
+                .param("id", taskId)
                 .update();
-        Assert.state(deleted==1, "Failed to delete task");
+    }
+
+    public List<String> findImageUrls(Integer taskId) {
+        return jdbcClient.sql("SELECT image_url FROM question_images WHERE question_id = :id")
+                .param("id", taskId)
+                .query(String.class)
+                .list();
     }
 
     public int count() {

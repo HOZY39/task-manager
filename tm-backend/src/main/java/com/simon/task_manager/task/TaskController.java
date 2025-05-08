@@ -28,72 +28,66 @@ import com.simon.task_manager.solution.*;
 @RequestMapping("/api/tasks")
 public class TaskController {
 
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
     private final SolutionRepository solutionRepository;
 
-    private static final Logger log = LoggerFactory.getLogger(TaskController.class);
-
-    public TaskController(TaskRepository taskRepository, SolutionRepository solutionRepository) {
-        this.taskRepository = taskRepository;
+    public TaskController(TaskService taskService, SolutionRepository solutionRepository){
+        this.taskService = taskService;
         this.solutionRepository = solutionRepository;
     }
 
     @GetMapping
-    List<Task> findAll() {
-        return taskRepository.findAll();
-    }
-
-    @GetMapping("/{id}/solutions")
-    List<Solution> findAllSol(@PathVariable Integer id) {
-        return solutionRepository.findAllForTask(id);
-    }
-
-    @GetMapping("/section/{section}")
-    List<Task> findAllBySection(@PathVariable String section) {
-        return taskRepository.findAllBySection(section);
-    }
-    
-    @GetMapping("/search/{search}")
-    List<Task> findAllByText(@PathVariable String search) {
-        return taskRepository.findAllByText(search);
+    public List<Task> findAll() {
+        return taskService.findAll();
     }
 
     @GetMapping("/{id}")
-    Task findById(@PathVariable Integer id) {
-        Optional<Task> task = taskRepository.findById(id);
-        if (task.isPresent()){
+    public Task findById(@PathVariable Integer id) {
+        Optional<Task> task = taskService.findById(id);
+        if (task.isPresent()) {
             return task.get();
-        }else{
+        } else {
             throw new TaskNotFoundException();
         }
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
-    public int create(@RequestBody Task task){
-        return taskRepository.create(task);
+    @GetMapping("/section/{section}")
+    public List<Task> findAllBySection(@PathVariable String section) {
+        return taskService.findAllBySection(section);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
-    void update(@RequestBody Task task, @PathVariable Integer id){
-        taskRepository.update(task, id);
+    @GetMapping("/search/{search}")
+    public List<Task> findAllByText(@PathVariable String search) {
+        return taskService.findAllByText(search);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    void delete(@PathVariable Integer id){
-        taskRepository.delete(id);
+    @GetMapping("/{id}/solutions")
+    public List<Solution> findAllSol(@PathVariable Integer id) {
+        return solutionRepository.findAllForTask(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<Integer> create(@RequestBody Task task) {
+        Integer id = taskService.create(task);
+        return ResponseEntity.ok(id);
     }
 
     @PostMapping("/{id}/image")
-    public ResponseEntity<String> uploadImage(@PathVariable Integer id, @RequestParam("image") MultipartFile file) {
-        try {
-            taskRepository.addImage(file, id);
-            return ResponseEntity.ok("Image uploaded successfully.");
-        } catch (IOException e) {
-            log.error("Failed to upload image", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload image");
-        }
+    public ResponseEntity<Void> uploadImage(@PathVariable Integer id, @RequestParam MultipartFile image) throws IOException {
+        taskService.addImage(image, id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/description")
+    public ResponseEntity<Void> updateDescription(@PathVariable Integer id, @RequestBody String newDescription) {
+        taskService.updateDescription(id, newDescription);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.ok().build();
     }
 }
+
