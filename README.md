@@ -1,6 +1,6 @@
 # Task Manager
 
-Task Manager is a web application, that let users post questions and answers.
+Task Manager is a web application that allows users to post questions and answers in a forum-style interface.
 Technologies used:
 - Backend **SpringBoot** (Java + Maven)
 - Frontend **Angular**
@@ -10,7 +10,7 @@ Technologies used:
 # Features 
 User can:
 - create and account
-- login to created account
+- log in to their account
 - post questions on forum for specific subject and section
 - post answers for specific questions
 - add image to question/answer
@@ -21,6 +21,6 @@ User can:
 
 ![registration](./img/registration.png)
 ![home](./img/home.png)
-![taskpage](./img/taskpage.png)
 ![addquestion](./img/addquestion.png)
+![taskpage](./img/taskpage.png)
 
