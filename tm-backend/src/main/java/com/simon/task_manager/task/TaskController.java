@@ -58,7 +58,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}/solutions")
-    public List<Solution> findAllSol(@PathVariable Integer id) {
+    public List<Solution> findAllSolutionsForTask(@PathVariable Integer id) {
         return solutionRepository.findAllForTask(id);
     }
 

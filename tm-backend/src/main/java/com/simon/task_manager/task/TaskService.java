@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +64,7 @@ public class TaskService {
             throw new RuntimeException("Cannot create directory: " + uploadDir);
         }
 
-        String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path path = Paths.get(uploadDir, filename);
         Files.write(path, file.getBytes());
 
@@ -98,7 +99,7 @@ public class TaskService {
         });
 
         taskRepository.deleteImagesByTaskId(taskId);
-        int deleted = taskRepository.deleteTask(taskId);
+        int deleted = taskRepository.deleteTaskById(taskId);
         Assert.state(deleted == 1, "Failed to delete task");
     }
 }

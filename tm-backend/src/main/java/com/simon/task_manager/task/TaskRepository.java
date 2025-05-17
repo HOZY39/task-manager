@@ -88,7 +88,7 @@ public class TaskRepository {
                 .update();
     }
 
-    public int deleteTask(Integer taskId) {
+    public int deleteTaskById(Integer taskId) {
         return jdbcClient.sql("DELETE FROM tasks WHERE id = :id")
                 .param("id", taskId)
                 .update();
@@ -102,7 +102,7 @@ public class TaskRepository {
     }
 
     public int count() {
-        return jdbcClient.sql("select * from tasks").query().listOfRows().size();
+        return jdbcClient.sql("SELECT COUNT(*) FROM tasks").query(Integer.class).single();
     }
 
     public void saveAll(List<Task> tasks) {
